@@ -114,6 +114,10 @@ class App extends Component {
         .catch(error => console.log(error));
     };
 
+    submitKnowledege = () => {
+    	console.log('submitting knowledge!!');
+		};
+
     render() {
       return (
         <div className="App">
@@ -145,6 +149,7 @@ class App extends Component {
 								primary={true}
 								icon={<ActionAndroid />}
 								style={styles.submitButton}
+								onClick={this.submitKnowledege}
 							/>
 						</MuiThemeProvider>
 					</h2>
