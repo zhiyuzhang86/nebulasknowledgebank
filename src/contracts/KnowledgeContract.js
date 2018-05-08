@@ -1,0 +1,122 @@
+'use strict';
+
+var AuthorContent = function (text) {
+  if (text) {
+    var o = JSON.parse(text);
+    this.totalLikes = new BigNumber(o.totalLikes);
+    this.totalBalance = new BigNumber(o.totalBalance);
+  } else {
+    this.totalLikes = new BigNumber(0);
+    this.totalBalance = new BigNumber(0);
+  }
+};
+
+AuthorContent.prototype = {
+  toString: function () {
+    return JSON.stringify(this);
+  }
+};
+
+var KnowledgeContent = function (text) {
+  if (text) {
+    var o = JSON.parse(text);
+    this.content = o.content;
+    this.authorAddress = o.authorAddress;
+    this.numberOfLikes = new BigNumber(o.numberOfLikes);
+    this.blockHeight = new BigNumber(o.blockHeight);
+  } else {
+    this.content = '';
+    this.authorAddress = '';
+    this.numberOfLikes = new BigNumber(0);
+    this.blockHeight = new BigNumber(0);
+  }
+};
+
+KnowledgeContent.prototype = {
+  toString: function () {
+    return JSON.stringify(this);
+  }
+};
+
+var KnowledgeContract = function () {
+  LocalContractStorage.defineMapProperty(this, "KnowledgeBook", {
+    parse: function (text) {
+      return new KnowledgeContent(text);
+    },
+    stringify: function (o) {
+      return o.toString();
+    }
+  });
+  LocalContractStorage.defineProperty(this, "size");
+  LocalContractStorage.defineMapProperty(this, "AuthorPool", {
+    parse: function (text) {
+      return new AuthorContent(text);
+    },
+    stringify: function (o) {
+      return o.toString();
+    }
+  });
+};
+
+// save content to contract, only after height of block, users can takeout
+KnowledgeContract.prototype = {
+  init: function () {
+    this.size = 0;
+  },
+
+  // create content
+  create: function (content) {
+    var from = Blockchain.transaction.from;
+    var blockHeight = new BigNumber(Blockchain.block.height);
+
+    var singleKnowledgeContent = new KnowledgeContent();
+    singleKnowledgeContent.content = content;
+    singleKnowledgeContent.authorAddress = from;
+    singleKnowledgeContent.numberOfLikes = 0;
+    singleKnowledgeContent.blockHeight = blockHeight;
+
+    if (!this.AuthorPool.get(from)) {
+      var newAuthorContent = new AuthorContent();
+      newAuthorContent.totalLikes = 0;
+      newAuthorContent.totalBalance = 0;
+      this.AuthorPool.put(from, newAuthorContent);
+    }
+    this.KnowledgeBook.put(this.size, singleKnowledgeContent);
+    this.size += 1;
+  },
+  likeIdea: function (index) {
+    var from = Blockchain.transaction.from;
+    var tip = Blockchain.transaction.value;
+    const fixedTip = 1; // change later
+
+    var authorAddress = this.KnowledgeBook.get(index).authorAddress;
+    var authorContent = this.AuthorPool.get(authorAddress);
+    if (!authorContent) {
+      throw new Error ("No author!!!");
+    } else {
+      authorContent.totalBalance += tip;
+      authorContent.totalLikes += 1;
+    }
+
+  },
+  infoOf: function () {
+    var from = Blockchain.transaction.from;
+    return this.AuthorPool.get(from);
+  },
+  allKnowledges: function () {
+    var result = [];
+    for (var index = 0;index < this.size;index++) {
+      result.push(this.KnowledgeBook.get(index));
+    }
+    return JSON.stringify(result);
+  },
+
+  verifyAddress: function (address) {
+    // 1-valid, 0-invalid
+    var result = Blockchain.verifyAddress(address);
+    return {
+      valid: result == 0 ? false : true
+    };
+  }
+};
+module.exports = KnowledgeContract;
