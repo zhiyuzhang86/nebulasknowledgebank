@@ -14,16 +14,19 @@ class App extends Component {
 
     componentDidMount() {
         axios
-            .post("https://testnet.nebulas.io/v1/user/call", '{"from":"n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq","to":"n1iNTrEyBkGWiWc4ivYp5f58C9VRWfPKYnt","value":"0","nonce":5,"gasPrice":"1000000","gasLimit":"200000","contract":{"function":"allKnowledges","args":""}}')
+            .post("https://testnet.nebulas.io/v1/user/call",
+                '{"from":"n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq","to":"n1iNTrEyBkGWiWc4ivYp5f58C9VRWfPKYnt","value":"0","nonce":5,"gasPrice":"1000000","gasLimit":"200000","contract":{"function":"allKnowledges","args":""}}')
             .then(response => {
                 // normalize data
                 var contents = response.data.result.result.replace(/\\/g, '');
                 var data = contents.substring(1, contents.length - 1);
                 // create an array of contacts only with relevant data
+                var i = 0;
                 const newContacts = JSON.parse(data).map(c => {
                     return {
-                        id: c.authorAddress,
-                        name: c.content
+                        id: i++,
+                        address: c.authorAddress,
+                        content: c.content,
                     };
                 });
 
@@ -44,7 +47,7 @@ class App extends Component {
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">React Contact Manager</h1>
+                    <h1 className="App-title">Nebulas</h1>
                 </header>
 
                 <ContactList contacts={this.state.contacts}/>

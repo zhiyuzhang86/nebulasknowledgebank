@@ -5,13 +5,14 @@ import "./Contact.css";
 function Contact(props) {
   return (
     <div className="contact">
-      <span>{props.name}</span>
+        <span>Address: {props.address}  Content: {props.content}</span>
     </div>
   );
 }
 
 Contact.propTypes = {
-  name: PropTypes.string.isRequired
+    address: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired
 };
 
 export default Contact;
