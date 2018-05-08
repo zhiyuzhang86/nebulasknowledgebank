@@ -133,6 +133,7 @@ class App extends Component {
 								multiLine={true}
 								rows={1}
 								rowsMax={10}
+								fullWidth={true}
 							/>
 						</MuiThemeProvider>
           </h1>
