@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import logo from "./resources/logo.svg";
+import NebulasLogo from './resources/nebulas.svg';
 import "./App.css";
 import PropTypes from 'prop-types';
 import axios from "axios";
@@ -117,7 +118,7 @@ class App extends Component {
       return (
         <div className="App">
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo"/>
+            <img src={NebulasLogo} className="App-logo" alt="logo"/>
             <h1 className="App-title">
               Knowledge Bank
             </h1>
