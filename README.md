@@ -9,8 +9,8 @@ This is the source code to my multi-part blog series about creating a React app:
 If you want to try the app, you just have to clone and run it: 
 
 ```
-git clone https://github.com/areiterer/contacts-manager
-cd contacts-manager
+git clone git@github.com:zhiyuzhang86/xingyun.git
+cd xingyun
 npm install
 npm start
 ````
