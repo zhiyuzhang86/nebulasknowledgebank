@@ -1,19 +1,19 @@
 import React, {Component} from "react";
-import logo from "./resources/logo.svg";
 import NebulasLogo from './resources/nebulas.svg';
 import "./App.css";
 import PropTypes from 'prop-types';
 import axios from "axios";
 import TextField from 'material-ui/TextField';
-import KnowledegeCardList from "./components/KnowledgeCardList";
+import KnowledegeCardList from './components/KnowledgeCardList';
+import MainTab from './components/MainTab.js';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-const TESTNET_GET_ACCOUNT_STATE_CONTRACT = "https://testnet.nebulas.io/v1/user/accountstate";
-const TESTNET_CALL_SMART_CONTRACT = "https://testnet.nebulas.io/v1/user/call";
+const TESTNET_GET_ACCOUNT_STATE_CONTRACT = 'https://testnet.nebulas.io/v1/user/accountstate';
+const TESTNET_CALL_SMART_CONTRACT = 'https://testnet.nebulas.io/v1/user/call';
 const CALLER_ADDRESS = 'n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq';
 const CONTRACT_ADDRESS = 'n1iNTrEyBkGWiWc4ivYp5f58C9VRWfPKYnt';
 const GAS_PRICE = "1000000";
@@ -116,6 +116,18 @@ class App extends Component {
 
     submitKnowledege = () => {
     	console.log('submitting knowledge!!');
+			window.postMessage({
+				"target": "contentscript",
+				"data":{
+					"to": 'asd',
+					"value": "0",
+					"contract":{  //"contract" is a parameter used to deploy a contract or call a smart contract function
+						"function":'sadas',
+						"args":'asdas'
+					}
+				},
+				"method": "neb_sendTransaction",
+			}, "*");
 		};
 
     render() {
@@ -127,6 +139,7 @@ class App extends Component {
               Knowledge Bank
             </h1>
           </header>
+					<MainTab />
           <h1 className="App-textInput">
 						<MuiThemeProvider>
 							<TextField
