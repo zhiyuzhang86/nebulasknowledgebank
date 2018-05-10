@@ -100,16 +100,26 @@ KnowledgeContract.prototype = {
 
   },
   infoOf: function () {
-    var from = Blockchain.transaction.from;
-    return this.AuthorPool.get(from);
-  },
-  allKnowledges: function () {
+		var from = Blockchain.transaction.from;
+		return this.AuthorPool.get(from);
+	},
+	getAccountInfo: function (address) {
+		return this.AuthorPool.get(address);
+	},
+  allKnowledgesTimeAsc: function () {
     var result = [];
     for (var index = 0;index < this.size;index++) {
       result.push(this.KnowledgeBook.get(index));
     }
     return JSON.stringify(result);
   },
+	allKnowledgesTimeDesc: function () {
+		var result = [];
+		for (var index = this.size - 1;index >= 0;index--) {
+			result.push(this.KnowledgeBook.get(index));
+		}
+		return JSON.stringify(result);
+	},
 
   verifyAddress: function (address) {
     // 1-valid, 0-invalid

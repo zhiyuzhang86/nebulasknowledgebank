@@ -11,6 +11,7 @@ const TESTNET_GET_ACCOUNT_STATE_CONTRACT = 'https://testnet.nebulas.io/v1/user/a
 const TESTNET_CALL_SMART_CONTRACT = 'https://testnet.nebulas.io/v1/user/call';
 const CALLER_ADDRESS = 'n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq';
 const CONTRACT_ADDRESS = 'n1iNTrEyBkGWiWc4ivYp5f58C9VRWfPKYnt';
+const NEW_CONTRACT_ADDRESS = 'n22caQfAwpgTAbkcLjtMze5Ae891Ure7atu'; // tx hash: 9b76b870f32d54b2ee8df82498b9b9fccc849f9be5e38276ac9ecfd6523cebac
 const GAS_PRICE = "1000000";
 const GAS_LIMIT = "200000";
 
@@ -27,13 +28,16 @@ class App extends Component {
 
     // default state object
     state = {
-      knowledgeMap: []
+      knowledgeMap: [],
+      nebPay: {}
     };
 
     componentDidMount() {
       this.getAllKnowledge();
-      const nebpayInstance = new NebPay();
-      console.log(nebpayInstance);
+      this.setState({
+        nebPay: new NebPay()
+      });
+      console.log('initing the page');
     }
 
     getAccountState = async () => {
@@ -52,13 +56,13 @@ class App extends Component {
       const nextNonce = currentNonce + 1;
       const dataToSend = JSON.stringify({
         from: CALLER_ADDRESS,
-        to: CONTRACT_ADDRESS,
+        to: NEW_CONTRACT_ADDRESS,
         value: "0",
         nonce: nextNonce.toString(),
         gasPrice: GAS_PRICE,
         gasLimit: GAS_LIMIT,
         contract: {
-          function: "allKnowledges",
+          function: "allKnowledgesTimeDesc",
           args: ""
         }
       });
@@ -99,9 +103,36 @@ class App extends Component {
 
 		};
 
-    searchAddress = () => {
+    onSearchCompleteListener = (response) => {
+      console.log('search complete');
+      console.log(response);
+    };
+
+    searchAddress = accountAddress => {
 			console.log('searching address');
+			console.log(this.state.nebPay);
+			console.log(accountAddress);
+
+			const to = NEW_CONTRACT_ADDRESS;
+			const value = "0";
+			const callFunction = "infoOf";
+			const callArgs="";
+
+			const searchOptions = {
+				qrcode: {
+					showQRCode: true
+				},
+				goods: {
+					name: "search knowledge",
+					desc: "search knowledge"
+				},
+			  listener: this.onSearchCompleteListener,
+        callback: ''
+      };
+
+			const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, searchOptions);
 		};
+
 
     render() {
       return (

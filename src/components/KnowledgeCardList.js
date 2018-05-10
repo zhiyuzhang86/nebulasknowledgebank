@@ -14,7 +14,7 @@ const style = {
 
 const KnowledgeCardList = (props) => (
 	<div style={style.knowledgeCardListContainer}>
-		{props.knowledgeMap.reverse().map(eachKnowledge =>
+		{props.knowledgeMap.map(eachKnowledge =>
 			<KnowledgeCard key={eachKnowledge.id}
 			 	knowledgeContent={eachKnowledge.content}
 				authorAddress={eachKnowledge.address}
