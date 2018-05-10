@@ -131,6 +131,16 @@ class App extends Component {
       };
 
 			const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, searchOptions);
+			this.state.nebPay.queryPayInfo(serialNumber)
+        .then((response) => {
+          console.log("tx result: " + response);
+          if (response) {
+            const printableObject = JSON.parse(response);
+            console.log(printableObject);
+          }
+        }).catch((error) => {
+         console.log(error);
+      });
 		};
 
 
