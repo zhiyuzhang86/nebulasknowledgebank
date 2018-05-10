@@ -12,6 +12,9 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.1",
     "react-scripts": "1.0.17"
   },
   "scripts": {

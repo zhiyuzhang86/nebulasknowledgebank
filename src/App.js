@@ -3,14 +3,9 @@ import NebulasLogo from './resources/nebulas.svg';
 import "./App.css";
 import PropTypes from 'prop-types';
 import axios from "axios";
-import TextField from 'material-ui/TextField';
 import KnowledegeCardList from './components/KnowledgeCardList';
 import MainTab from './components/MainTab.js';
-import {orange500, blue500} from 'material-ui/styles/colors';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
-import RaisedButton from 'material-ui/RaisedButton';
-
+import NebPay from 'nebpay';
 
 const TESTNET_GET_ACCOUNT_STATE_CONTRACT = 'https://testnet.nebulas.io/v1/user/accountstate';
 const TESTNET_CALL_SMART_CONTRACT = 'https://testnet.nebulas.io/v1/user/call';
@@ -19,23 +14,6 @@ const CONTRACT_ADDRESS = 'n1iNTrEyBkGWiWc4ivYp5f58C9VRWfPKYnt';
 const GAS_PRICE = "1000000";
 const GAS_LIMIT = "200000";
 
-const styles = {
-	submitButton: {
-		margin: 10,
-	},
-	errorStyle: {
-		color: orange500,
-	},
-	underlineStyle: {
-		borderColor: orange500,
-	},
-	floatingLabelStyle: {
-		color: orange500,
-	},
-	floatingLabelFocusStyle: {
-		color: blue500,
-	},
-};
 
 class App extends Component {
 
@@ -54,6 +32,8 @@ class App extends Component {
 
     componentDidMount() {
       this.getAllKnowledge();
+      const nebpayInstance = new NebPay();
+      console.log(nebpayInstance);
     }
 
     getAccountState = async () => {
@@ -116,18 +96,11 @@ class App extends Component {
 
     submitKnowledege = () => {
     	console.log('submitting knowledge!!');
-			window.postMessage({
-				"target": "contentscript",
-				"data":{
-					"to": 'asd',
-					"value": "0",
-					"contract":{  //"contract" is a parameter used to deploy a contract or call a smart contract function
-						"function":'sadas',
-						"args":'asdas'
-					}
-				},
-				"method": "neb_sendTransaction",
-			}, "*");
+
+		};
+
+    searchAddress = () => {
+			console.log('searching address');
 		};
 
     render() {
@@ -139,33 +112,7 @@ class App extends Component {
               Knowledge Bank
             </h1>
           </header>
-					<MainTab />
-          <h1 className="App-textInput">
-						<MuiThemeProvider>
-							<TextField
-								floatingLabelText="Please type your knowledge"
-								floatingLabelStyle={styles.floatingLabelStyle}
-								floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-								underlineStyle={styles.underlineStyle}
-								multiLine={true}
-								rows={1}
-								rowsMax={10}
-								fullWidth={true}
-							/>
-						</MuiThemeProvider>
-          </h1>
-					<h2 className="App-submitButton">
-						<MuiThemeProvider>
-							<RaisedButton
-								label="Submit"
-								labelPosition="before"
-								primary={true}
-								icon={<ActionAndroid />}
-								style={styles.submitButton}
-								onClick={this.submitKnowledege}
-							/>
-						</MuiThemeProvider>
-					</h2>
+					<MainTab submitKnowledege={this.submitKnowledege} searchAddress={this.searchAddress}/>
           <KnowledegeCardList knowledgeMap={this.state.knowledgeMap} />
         </div>
       );
