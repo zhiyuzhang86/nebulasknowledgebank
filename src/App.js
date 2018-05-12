@@ -37,7 +37,6 @@ class App extends Component {
       this.setState({
         nebPay: new NebPay()
       });
-      console.log('initing the page');
     }
 
     getAccountState = async () => {
@@ -98,10 +97,35 @@ class App extends Component {
         .catch(error => console.log(error));
     };
 
-    submitKnowledege = () => {
-    	console.log('submitting knowledge!!');
+    submitKnowledge = newKnowledge => {
 
-		};
+        const to = NEW_CONTRACT_ADDRESS;
+        const value = "0";
+        const callFunction = "create";
+        const callArgs = '["'+ newKnowledge+'"]';
+        const submitOptions = {
+            listener: this.onSubmitCompleteListener,
+            callback: ''
+        };
+
+        const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, submitOptions);
+        this.state.nebPay.queryPayInfo(serialNumber)
+            .then((response) => {
+                console.log("tx result: " + response);
+                if (response) {
+                    const printableObject = JSON.parse(response);
+                    console.log(printableObject);
+                }
+            }).catch((error) => {
+            console.log(error);
+        });
+
+    };
+
+    onSubmitCompleteListener = (response) => {
+        console.log('submit complete');
+        console.log(response);
+    };
 
     onSearchCompleteListener = (response) => {
       console.log('search complete');
@@ -109,39 +133,39 @@ class App extends Component {
     };
 
     searchAddress = accountAddress => {
-			console.log('searching address');
-			console.log(this.state.nebPay);
-			console.log(accountAddress);
+        console.log('searching address');
+        console.log(this.state.nebPay);
+        console.log(accountAddress);
 
-			const to = NEW_CONTRACT_ADDRESS;
-			const value = "0";
-			const callFunction = "infoOf";
-			const callArgs="";
+        const to = NEW_CONTRACT_ADDRESS;
+        const value = "0";
+        const callFunction = "infoOf";
+        const callArgs = "";
 
-			const searchOptions = {
-				qrcode: {
-					showQRCode: true
-				},
-				goods: {
-					name: "search knowledge",
-					desc: "search knowledge"
-				},
-			  listener: this.onSearchCompleteListener,
-        callback: ''
-      };
+        const searchOptions = {
+            qrcode: {
+                showQRCode: true
+            },
+            goods: {
+                name: "search knowledge",
+                desc: "search knowledge"
+            },
+            listener: this.onSearchCompleteListener,
+            callback: ''
+        };
 
-			const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, searchOptions);
-			this.state.nebPay.queryPayInfo(serialNumber)
-        .then((response) => {
-          console.log("tx result: " + response);
-          if (response) {
-            const printableObject = JSON.parse(response);
-            console.log(printableObject);
-          }
-        }).catch((error) => {
-         console.log(error);
-      });
-		};
+        const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, searchOptions);
+        this.state.nebPay.queryPayInfo(serialNumber)
+            .then((response) => {
+                console.log("tx result: " + response);
+                if (response) {
+                    const printableObject = JSON.parse(response);
+                    console.log(printableObject);
+                }
+            }).catch((error) => {
+            console.log(error);
+        });
+    };
 
 
     render() {
@@ -153,7 +177,7 @@ class App extends Component {
               Knowledge Bank
             </h1>
           </header>
-					<MainTab submitKnowledege={this.submitKnowledege} searchAddress={this.searchAddress}/>
+            <MainTab submitKnowledge={this.submitKnowledge} searchAddress={this.searchAddress}/>
           <KnowledegeCardList knowledgeMap={this.state.knowledgeMap} />
         </div>
       );

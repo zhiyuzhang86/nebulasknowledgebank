@@ -1,4 +1,4 @@
-# Contacts Manager
+# Knowledge Bank
 This is the source code to my multi-part blog series about creating a React app:
 
 * [Part 1 – How to Create a React App with create-react-app](http://www.andreasreiterer.at/web-development/creating-react-app-create-react-app/)

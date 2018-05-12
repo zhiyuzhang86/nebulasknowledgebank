@@ -68,7 +68,7 @@ class MainTab extends Component {
 	};
 
 	submitCreateKnowledgeRequest = () => {
-		this.props.submitKnowledge(this.state.newKnowledge);
+        this.props.submitKnowledge(this.state.newKnowledge);
 	};
 
 	render() {
@@ -110,7 +110,7 @@ class MainTab extends Component {
 								primary={true}
 								icon={<ActionAndroid/>}
 								style={styles.submitButton}
-								onClick={this.submitCreateKnowledgeRequest()}
+								onClick={this.submitCreateKnowledgeRequest}
 							/>
 						</h2>
 					</Tab>
