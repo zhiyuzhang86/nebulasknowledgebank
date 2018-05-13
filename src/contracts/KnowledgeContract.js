@@ -101,6 +101,8 @@ KnowledgeContract.prototype = {
             authorContent.totalBalance += tip;
             authorContent.totalLikes += 1;
             singleKnowledgeContent.numberOfLikes += 1;
+            this.KnowledgeBook.put(i, singleKnowledgeContent);
+            this.AuthorPool.put(authorAddress, authorContent);
         }
 
     },
