@@ -1,8 +1,8 @@
 {
-  "name": "nasknowledgebank",
+  "name": "nebulasknowledgebank",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://zhiyuzhang86.github.io/nasknowledgebank/",
+  "homepage": "https://zhiyuzhang86.github.io/nebulasknowledgebank/",
   "dependencies": {
     "ajv-keywords": "^3.2.0",
     "axios": "^0.17.1",
