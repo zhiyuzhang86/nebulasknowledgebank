@@ -17,7 +17,7 @@ const KnowledgeCardList = (props) => (
 		{props.knowledgeMap.map(eachKnowledge =>
 			<KnowledgeCard key={eachKnowledge.id}
 			 	knowledgeContent={eachKnowledge.content}
-				authorAddress={eachKnowledge.address}
+				authorAddress={eachKnowledge.authorAddress}
 				numberOfLikes={eachKnowledge.numberOfLikes}
 			/>
 		)}

@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
+import KnowledegeCardList from './KnowledgeCardList';
+import KnowledgeCard from './KnowledgeCard';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import CreateIcon from 'material-ui/svg-icons/content/create';
 import SearchIcon from 'material-ui/svg-icons/action/search';
@@ -36,13 +38,17 @@ class MainTab extends Component {
 	static propTypes = {
 		searchValue: PropTypes.string,
 		searchAddress: PropTypes.func,
-		submitKnowledge: PropTypes.func
+		submitKnowledge: PropTypes.func,
+		knowledgeMap: PropTypes.array,
+		accountInfo: PropTypes.object
 	};
 
 	static defaultProps = {
 		searchValue: '',
 		searchAddress() {},
-		submitKnowledge() {}
+		submitKnowledge() {},
+		knowledgeMap: [],
+		accountInfo: {}
 	};
 
 	// default state object
@@ -68,15 +74,10 @@ class MainTab extends Component {
 	};
 
 	submitCreateKnowledgeRequest = () => {
-        this.props.submitKnowledge(this.state.newKnowledge);
+		this.props.submitKnowledge(this.state.newKnowledge);
 	};
 
 	render() {
-		const {
-			searchAddress,
-			submitKnowledge
-		} = this.props;
-
 		return (
 			<MuiThemeProvider>
 				<Tabs>
@@ -84,7 +85,9 @@ class MainTab extends Component {
 						icon={<HomeIcon className="material-icons">Home</HomeIcon>}
 						label="HOME"
 					>
-						<p>Hey you</p>
+						{this.props.knowledgeMap &&
+							<KnowledegeCardList knowledgeMap={this.props.knowledgeMap} />
+						}
 					</Tab>
 					<Tab
 						icon={<CreateIcon className="material-icons">Create</CreateIcon>}
@@ -138,6 +141,14 @@ class MainTab extends Component {
 								style={styles.submitButton}
 								onClick={this.submitSearchRequest}
 							/>
+							{this.props.accountInfo && Object.keys(this.props.accountInfo).length !== 0 &&
+								<KnowledgeCard
+									authorAddress={this.props.accountInfo.authorAddress}
+									numberOfLikes={this.props.accountInfo.numberOfLikes}
+									amount={this.props.accountInfo.amount}
+									hasCardActions={false}
+								/>
+							}
 						</h2>
 					</Tab>
 				</Tabs>

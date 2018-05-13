@@ -3,7 +3,6 @@ import NebulasLogo from './resources/nebulas.svg';
 import "./App.css";
 import PropTypes from 'prop-types';
 import axios from "axios";
-import KnowledegeCardList from './components/KnowledgeCardList';
 import MainTab from './components/MainTab.js';
 import NebPay from 'nebpay';
 
@@ -29,6 +28,7 @@ class App extends Component {
     // default state object
     state = {
       knowledgeMap: [],
+			accountInfo: {},
       nebPay: {}
     };
 
@@ -49,9 +49,8 @@ class App extends Component {
     getAllKnowledge = async () => {
 
       const result = await this.getAccountState();
-      const accountInfo = result.data.result;
-      const accountBalance = parseFloat(accountInfo.balance);
-      const currentNonce = parseInt(accountInfo.nonce, 10);
+      const accountState = result.data.result;
+      const currentNonce = parseInt(accountState.nonce, 10);
       const nextNonce = currentNonce + 1;
       const dataToSend = JSON.stringify({
         from: CALLER_ADDRESS,
@@ -78,21 +77,15 @@ class App extends Component {
           const newKnowledgeMap = JSON.parse(data).map(c => {
             return {
               id: index++,
-              address: c.authorAddress,
+              authorAddress: c.authorAddress,
               content: c.content,
               numberOfLikes: parseInt(c.numberOfLikes, 10),
               blockHeight: parseInt(c.blockHeight, 10)
             };
           });
 
-          // create a new "state" object without mutating
-          // the original state object.
-          const newState = Object.assign({}, this.state, {
-            knowledgeMap: newKnowledgeMap
-          });
-
           // store the new state object in the component's state
-          this.setState(newState);
+          this.setState({knowledgeMap: newKnowledgeMap});
         })
         .catch(error => console.log(error));
     };
@@ -132,39 +125,53 @@ class App extends Component {
       console.log(response);
     };
 
-    searchAddress = accountAddress => {
-        console.log('searching address');
-        console.log(this.state.nebPay);
-        console.log(accountAddress);
+    searchAddress = async (accountAddress) => {
+			const result = await this.getAccountState();
+			const accountState = result.data.result;
+			const currentNonce = parseInt(accountState.nonce, 10);
+			const nextNonce = currentNonce + 1;
+			const dataToSend = JSON.stringify({
+				from: accountAddress,
+				to: NEW_CONTRACT_ADDRESS,
+				value: "0",
+				nonce: nextNonce.toString(),
+				gasPrice: GAS_PRICE,
+				gasLimit: GAS_LIMIT,
+				contract: {
+					function: "infoOf",
+					args: ""
+				}
+			});
 
-        const to = NEW_CONTRACT_ADDRESS;
-        const value = "0";
-        const callFunction = "infoOf";
-        const callArgs = "";
+			axios
+				.post(TESTNET_CALL_SMART_CONTRACT,
+					dataToSend)
+				.then(response => {
+					// normalize data
+					const data = JSON.parse(response.data.result.result.replace(/\\/g, ''));
 
-        const searchOptions = {
-            qrcode: {
-                showQRCode: true
-            },
-            goods: {
-                name: "search knowledge",
-                desc: "search knowledge"
-            },
-            listener: this.onSearchCompleteListener,
-            callback: ''
-        };
+					const accountInfo = {
+						authorAddress: accountAddress,
+						numberOfLikes: parseInt(data.totalLikes, 10),
+						amount: parseInt(data.totalBalance, 10)
+					};
+					this.setState({accountInfo: accountInfo});
 
-        const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, searchOptions);
-        this.state.nebPay.queryPayInfo(serialNumber)
-            .then((response) => {
-                console.log("tx result: " + response);
-                if (response) {
-                    const printableObject = JSON.parse(response);
-                    console.log(printableObject);
-                }
-            }).catch((error) => {
-            console.log(error);
-        });
+				})
+				.catch(error => console.log(error));
+
+
+        // const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, searchOptions);
+        // this.state.nebPay.queryPayInfo(serialNumber)
+        //     .then((response) => {
+        //         console.log("tx result: " + response);
+        //         if (response) {
+        //             const printableObject = JSON.parse(response);
+        //             console.log(printableObject);
+        //         }
+        //     }).catch((error) => {
+        //     console.log(error);
+        // });
     };
 
 
@@ -177,8 +184,12 @@ class App extends Component {
               Knowledge Bank
             </h1>
           </header>
-            <MainTab submitKnowledge={this.submitKnowledge} searchAddress={this.searchAddress}/>
-          <KnowledegeCardList knowledgeMap={this.state.knowledgeMap} />
+            <MainTab
+              submitKnowledge={this.submitKnowledge}
+              searchAddress={this.searchAddress}
+              knowledgeMap={this.state.knowledgeMap}
+              accountInfo={this.state.accountInfo}
+            />
         </div>
       );
     }

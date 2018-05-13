@@ -87,7 +87,6 @@ KnowledgeContract.prototype = {
   likeIdea: function (index) {
     var from = Blockchain.transaction.from;
     var tip = Blockchain.transaction.value;
-    const fixedTip = 1; // change later
 
     var authorAddress = this.KnowledgeBook.get(index).authorAddress;
     var authorContent = this.AuthorPool.get(authorAddress);

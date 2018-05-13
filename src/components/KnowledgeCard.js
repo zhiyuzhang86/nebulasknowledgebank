@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import SatisfiedLogo from 'material-ui/svg-icons/social/sentiment-very-satisfied';
+import MoneyLogo from 'material-ui/svg-icons/editor/attach-money';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const styles = {
@@ -45,23 +46,42 @@ const KnowledgeCard = (props) => (
 			<CardText style={styles.cardText}>
 				{props.knowledgeContent}
 			</CardText>
-			<span className={"Likelogo-container"}>
-				<SatisfiedLogo />
-				<span>{props.numberOfLikes}</span>
-			</span>
-			<CardActions style={styles.actionButtons}>
-				<FlatButton label="Like" />
-				<FlatButton label="Reply" />
-			</CardActions>
+			{props.hasLikes &&
+				<div className={"Likelogo-container"}>
+					<SatisfiedLogo/>
+					<span>{props.numberOfLikes}</span>
+				</div>
+			}
+			{props.hasMoneyAmount &&
+				<div className={"money-container"}>
+					<MoneyLogo />
+					<span>{props.amount}</span>
+				</div>
+			}
+			{props.hasCardActions &&
+				< CardActions style={styles.actionButtons}>
+					<FlatButton label="Like" />
+					<FlatButton label="Reply" />
+				</CardActions>
+			}
 		</Card>
 
   </MuiThemeProvider>
 );
 
+KnowledgeCard.defaultProps = {
+	hasCardActions: true,
+	hasLikes: true,
+	hasMoneyAmount: true,
+	numberOfLikes: 0,
+	amount: 0
+};
+
 KnowledgeCard.propTypes = {
 	authorAddress: PropTypes.string.isRequired,
-	knowledgeContent: PropTypes.string.isRequired,
-	numberOfLikes: PropTypes.number.isRequired
+	knowledgeContent: PropTypes.string,
+	numberOfLikes: PropTypes.number,
+	amount: PropTypes.number
 };
 
 export default KnowledgeCard;
