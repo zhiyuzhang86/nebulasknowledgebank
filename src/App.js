@@ -46,7 +46,6 @@ class App extends Component {
     };
 
     getAllKnowledge = async () => {
-
       const result = await this.getAccountState();
       const accountState = result.data.result;
       const currentNonce = parseInt(accountState.nonce, 10);
