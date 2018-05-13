@@ -124,19 +124,18 @@ class App extends Component {
 			listener: this.onLikeCompleteListener,
 			callback: ''
 		};
-		debugger;
-		//
-		// const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, submitOptions);
-		// this.state.nebPay.queryPayInfo(serialNumber)
-		// 	.then((response) => {
-		// 		console.log("tx result: " + response);
-		// 		if (response) {
-		// 			const printableObject = JSON.parse(response);
-		// 			console.log(printableObject);
-		// 		}
-		// 	}).catch((error) => {
-		// 	console.log(error);
-		// });
+
+		const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, submitOptions);
+		this.state.nebPay.queryPayInfo(serialNumber)
+			.then((response) => {
+				console.log("tx result: " + response);
+				if (response) {
+					const printableObject = JSON.parse(response);
+					console.log(printableObject);
+				}
+			}).catch((error) => {
+			console.log(error);
+		});
 	};
 
     onSubmitCompleteListener = (response) => {
