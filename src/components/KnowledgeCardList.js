@@ -15,10 +15,13 @@ const style = {
 const KnowledgeCardList = (props) => (
 	<div style={style.knowledgeCardListContainer}>
 		{props.knowledgeMap.map(eachKnowledge =>
-			<KnowledgeCard key={eachKnowledge.id}
+			<KnowledgeCard
+				cardIndex={eachKnowledge.id}
+				key={eachKnowledge.id}
 			 	knowledgeContent={eachKnowledge.content}
 				authorAddress={eachKnowledge.authorAddress}
 				numberOfLikes={eachKnowledge.numberOfLikes}
+				submitLikeRequest={props.submitLikeRequest}
 			/>
 		)}
 	</div>

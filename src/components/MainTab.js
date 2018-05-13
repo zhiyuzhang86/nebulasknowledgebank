@@ -38,6 +38,7 @@ class MainTab extends Component {
 	static propTypes = {
 		searchValue: PropTypes.string,
 		searchAddress: PropTypes.func,
+		likeSingleKnowledge: PropTypes.func,
 		submitKnowledge: PropTypes.func,
 		knowledgeMap: PropTypes.array,
 		accountInfo: PropTypes.object
@@ -47,6 +48,7 @@ class MainTab extends Component {
 		searchValue: '',
 		searchAddress() {},
 		submitKnowledge() {},
+		submitLike() {},
 		knowledgeMap: [],
 		accountInfo: {}
 	};
@@ -54,7 +56,8 @@ class MainTab extends Component {
 	// default state object
 	state = {
 		searchValue: '',
-		newKnowledge: ''
+		newKnowledge: '',
+		likeContentID: ''
 	};
 
 	onChangeSearchField = (event) => {
@@ -77,6 +80,10 @@ class MainTab extends Component {
 		this.props.submitKnowledge(this.state.newKnowledge);
 	};
 
+	submitLikeRequest = event => {
+		this.props.submitLike(event.currentTarget.value);
+	};
+
 	render() {
 		return (
 			<MuiThemeProvider>
@@ -86,7 +93,10 @@ class MainTab extends Component {
 						label="HOME"
 					>
 						{this.props.knowledgeMap &&
-							<KnowledegeCardList knowledgeMap={this.props.knowledgeMap} />
+							<KnowledegeCardList
+								knowledgeMap={this.props.knowledgeMap}
+								submitLikeRequest={this.submitLikeRequest}
+							/>
 						}
 					</Tab>
 					<Tab

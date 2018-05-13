@@ -115,13 +115,37 @@ class App extends Component {
 
     };
 
+	submitLike = contentID => {
+		const to = NEW_CONTRACT_ADDRESS;
+		const value = "0";
+		const callFunction = "likeIdea";
+		const callArgs = '["'+ contentID +'"]';
+		const submitOptions = {
+			listener: this.onLikeCompleteListener,
+			callback: ''
+		};
+		debugger;
+		//
+		// const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, submitOptions);
+		// this.state.nebPay.queryPayInfo(serialNumber)
+		// 	.then((response) => {
+		// 		console.log("tx result: " + response);
+		// 		if (response) {
+		// 			const printableObject = JSON.parse(response);
+		// 			console.log(printableObject);
+		// 		}
+		// 	}).catch((error) => {
+		// 	console.log(error);
+		// });
+	};
+
     onSubmitCompleteListener = (response) => {
-        console.log('submit complete');
+        console.log('Submit complete');
         console.log(response);
     };
 
-    onSearchCompleteListener = (response) => {
-      console.log('search complete');
+    onLikeCompleteListener = (response) => {
+      console.log('Like complete');
       console.log(response);
     };
 
@@ -159,19 +183,6 @@ class App extends Component {
 
 				})
 				.catch(error => console.log(error));
-
-
-        // const serialNumber = this.state.nebPay.call(to, value, callFunction, callArgs, searchOptions);
-        // this.state.nebPay.queryPayInfo(serialNumber)
-        //     .then((response) => {
-        //         console.log("tx result: " + response);
-        //         if (response) {
-        //             const printableObject = JSON.parse(response);
-        //             console.log(printableObject);
-        //         }
-        //     }).catch((error) => {
-        //     console.log(error);
-        // });
     };
 
 
@@ -186,6 +197,7 @@ class App extends Component {
           </header>
             <MainTab
               submitKnowledge={this.submitKnowledge}
+							submitLike={this.submitLike}
               searchAddress={this.searchAddress}
               knowledgeMap={this.state.knowledgeMap}
               accountInfo={this.state.accountInfo}

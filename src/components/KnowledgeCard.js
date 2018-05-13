@@ -59,10 +59,15 @@ const KnowledgeCard = (props) => (
 				</div>
 			}
 			{props.hasCardActions &&
-				< CardActions style={styles.actionButtons}>
-					<FlatButton label="Like" />
-					<FlatButton label="Reply" />
-				</CardActions>
+				<div className={"action-container"}>
+					<CardActions style={styles.actionButtons}>
+						<FlatButton
+							label="Like"
+							onClick={props.submitLikeRequest}
+							value={props.cardIndex}
+						/>
+					</CardActions>
+				</div>
 			}
 		</Card>
 
@@ -74,10 +79,12 @@ KnowledgeCard.defaultProps = {
 	hasLikes: true,
 	hasMoneyAmount: true,
 	numberOfLikes: 0,
-	amount: 0
+	amount: 0,
+	cardIndex: 0
 };
 
 KnowledgeCard.propTypes = {
+	cardIndex: PropTypes.number.isRequired,
 	authorAddress: PropTypes.string.isRequired,
 	knowledgeContent: PropTypes.string,
 	numberOfLikes: PropTypes.number,
