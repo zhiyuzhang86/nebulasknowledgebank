@@ -8,14 +8,14 @@ import NebPay from 'nebpay';
 
 const CONTRACT_CONFIG_MAP = {
 	MainNet: {
-		SMART_CONTRACT_API_GET_ACCOUNT_STATE: 'https://testnet.nebulas.io/v1/user/accountstate',
+		SMART_CONTRACT_API_GET_ACCOUNT_STATE: 'https://mainnet.nebulas.io/v1/user/accountstate',
 		SMART_CONTRACT_API_CALL: 'https://mainnet.nebulas.io/v1/user/call',
-		CALLER_ADDRESS: 'n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq',//n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq  Main: n1cdaXYsEHgJUL9Qz9Wd5faNJJBJm27jKe1
-		CONTRACT_ADDRESS:'n1kEkxuM6BPkGjrZ6oXWYjQqGfzThXsVGh7',//n1kEkxuM6BPkGjrZ6oXWYjQqGfzThXsVGh7 Main: n1o6FYPiGfmSHp2Xb597sE9vPWWnhodqqYm
+		CALLER_ADDRESS: 'n1cdaXYsEHgJUL9Qz9Wd5faNJJBJm27jKe1',//n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq  Main: n1cdaXYsEHgJUL9Qz9Wd5faNJJBJm27jKe1
+		CONTRACT_ADDRESS:'n1o6FYPiGfmSHp2Xb597sE9vPWWnhodqqYm',//n1kEkxuM6BPkGjrZ6oXWYjQqGfzThXsVGh7 Main: n1o6FYPiGfmSHp2Xb597sE9vPWWnhodqqYm
 		CONTRACT_TX_HASH: 'e8b2186ecf76c895972c2f9f75bb677a62ddb60c63ddce1e1d61751737219ac9'
 	},
 	TestNet: {
-		SMART_CONTRACT_API_GET_ACCOUNT_STATE: 'https://mainnet.nebulas.io/v1/user/accountstate',
+		SMART_CONTRACT_API_GET_ACCOUNT_STATE: 'https://testnet.nebulas.io/v1/user/accountstate',
 		SMART_CONTRACT_API_CALL: 'https://testnet.nebulas.io/v1/user/call',
 		CALLER_ADDRESS: 'n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq',
 		CONTRACT_ADDRESS:'n1w5CDL3ingxVEnSYjfgFU1ABaR1tVK3ooD',
