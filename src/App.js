@@ -9,8 +9,7 @@ import NebPay from 'nebpay';
 const TESTNET_GET_ACCOUNT_STATE_CONTRACT = 'https://testnet.nebulas.io/v1/user/accountstate';
 const TESTNET_CALL_SMART_CONTRACT = 'https://testnet.nebulas.io/v1/user/call';
 const CALLER_ADDRESS = 'n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq';
-const CONTRACT_ADDRESS = 'n1iNTrEyBkGWiWc4ivYp5f58C9VRWfPKYnt';
-const NEW_CONTRACT_ADDRESS = 'n22caQfAwpgTAbkcLjtMze5Ae891Ure7atu'; // tx hash: 9b76b870f32d54b2ee8df82498b9b9fccc849f9be5e38276ac9ecfd6523cebac
+const NEW_CONTRACT_ADDRESS = 'n1enRU8HX89UatCA1Yz1dY2TmZ7Ed8JPnt3'; //tx hash: 5d2e8e6cb0b7f49ef6f8b74653d547d0c4e2f937fab4a938b0e170be9005329f
 const GAS_PRICE = "1000000";
 const GAS_LIMIT = "200000";
 
@@ -72,11 +71,10 @@ class App extends Component {
           const allKnowledge = response.data.result.result.replace(/\\/g, '');
           const data = allKnowledge.substring(1, allKnowledge.length - 1);
           // create an array of contacts only with relevant data
-          let index = 0;
-
+            console.log(data);
           const newKnowledgeMap = JSON.parse(data).map(c => {
             return {
-              id: index++,
+              id: parseInt(c.contentId, 10),
               authorAddress: c.authorAddress,
               content: c.content,
               numberOfLikes: parseInt(c.numberOfLikes, 10),

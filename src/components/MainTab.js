@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import FontIcon from 'material-ui/FontIcon';
 import KnowledegeCardList from './KnowledgeCardList';
 import KnowledgeCard from './KnowledgeCard';
 import HomeIcon from 'material-ui/svg-icons/action/home';

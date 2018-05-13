@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import SatisfiedLogo from 'material-ui/svg-icons/social/sentiment-very-satisfied';
 import MoneyLogo from 'material-ui/svg-icons/editor/attach-money';
