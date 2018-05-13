@@ -2,9 +2,11 @@
   "name": "contacts-manager",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://zhiyuzhang86.github.io/nasknowledgebank/",
   "dependencies": {
     "ajv-keywords": "^3.2.0",
     "axios": "^0.17.1",
+    "gh-pages": "^1.1.0",
     "material-ui": "^0.20.0",
     "nebpay": "git+https://github.com/nebulasio/nebPay.git",
     "prop-types": "^15.6.1",
@@ -21,6 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   }
 }
