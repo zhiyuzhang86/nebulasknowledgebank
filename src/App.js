@@ -9,7 +9,7 @@ import NebPay from 'nebpay';
 const TESTNET_GET_ACCOUNT_STATE_CONTRACT = 'https://testnet.nebulas.io/v1/user/accountstate';
 const TESTNET_CALL_SMART_CONTRACT = 'https://testnet.nebulas.io/v1/user/call';
 const CALLER_ADDRESS = 'n1WQH3YqommB2vMCAMp5KjRgRByLfgiqkeq';
-const NEW_CONTRACT_ADDRESS = 'n1iMz7md1UzTBWthZLGY8TiEV9f9YANWJfT'; //tx hash: 0356738f8b6b9e544a20ab1cb9cb5c93482a497a3edbe4105336ad8510d2659b
+const NEW_CONTRACT_ADDRESS = 'n1w5CDL3ingxVEnSYjfgFU1ABaR1tVK3ooD'; //tx hash: 10e67b8784b5810d5a070eff769a9e5db6c69905b1493cc145edd5e11eb122ef
 const GAS_PRICE = "1000000";
 const GAS_LIMIT = "200000";
 

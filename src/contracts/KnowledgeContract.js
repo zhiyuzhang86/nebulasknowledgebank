@@ -98,9 +98,9 @@ KnowledgeContract.prototype = {
         if (!authorContent) {
             throw new Error("No author!!!");
         } else {
-            authorContent.totalBalance += tip;
-            authorContent.totalLikes += 1;
-            singleKnowledgeContent.numberOfLikes += 1;
+            authorContent.totalBalance = authorContent.totalBalance.plus(tip);
+            authorContent.totalLikes = authorContent.totalLikes.plus(1);
+            singleKnowledgeContent.numberOfLikes = singleKnowledgeContent.numberOfLikes.plus(1);
             this.KnowledgeBook.put(i, singleKnowledgeContent);
             this.AuthorPool.put(authorAddress, authorContent);
         }
