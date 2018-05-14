@@ -4,6 +4,11 @@ import "./App.css";
 import axios from "axios";
 import AppToolBar from './components/AppToolBar';
 import MainTab from './components/MainTab.js';
+
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import NebPay from 'nebpay';
 
 const CONTRACT_CONFIG_MAP = {
@@ -27,6 +32,7 @@ const GAS_PRICE = "1000000";
 const GAS_LIMIT = "200000";
 
 
+
 class App extends Component {
 
     // default state object
@@ -34,7 +40,8 @@ class App extends Component {
       knowledgeMap: [],
 			accountInfo: {},
       nebPay: {},
-			contractNetWorkType: 'TestNet'
+			contractNetWorkType: 'TestNet',
+			openHintModal: true
     };
 
     componentDidMount() {
@@ -203,9 +210,36 @@ class App extends Component {
 	};
 
 
-    render() {
+	handleCloseHintModal = () => {
+		this.setState({openHintModal: false});
+	};
+
+
+
+	render() {
+
+			const actions = [
+				<FlatButton
+					label="Got it"
+					primary={true}
+					keyboardFocused={true}
+					onClick={this.handleCloseHintModal}
+				/>,
+			];
+
       return (
         <div className="App">
+					<MuiThemeProvider>
+						<Dialog
+							title="Important information"
+							actions={actions}
+							modal={false}
+							open={this.state.openHintModal}
+							onRequestClose={this.handleCloseHintModal}
+						>
+							Please install <a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">WebExtensionWallet</a> to use this dApp.
+						</Dialog>
+					</MuiThemeProvider>
           <header className="App-header">
             <img src={NebulasLogo} className="App-logo" alt="logo"/>
             <h1 className="App-title">
